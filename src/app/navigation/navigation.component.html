@@ -21,5 +21,6 @@
       <span>My Dealership</span>
     </mat-toolbar>
     <!-- Add Content Here -->
+    <app-inventory-table *ngIf="isInventoryRoute()"></app-inventory-table>
   </mat-sidenav-content>
 </mat-sidenav-container>

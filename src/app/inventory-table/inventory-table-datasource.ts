@@ -3,36 +3,25 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
+import { VehicleService } from '../vehicle.service';
 
-// TODO: Replace this with your own data model type
-export interface InventoryTableItem {
-  name: string;
-  id: number;
+
+export enum Status {
+  inStock = "In Stock",
+  sold = "Sold",
+  dealPending = "Deal Pending",
+  inTrade = "In Trade"
 }
-
-// TODO: replace this with real data from your application
-const EXAMPLE_DATA: InventoryTableItem[] = [
-  {id: 1, name: 'Hydrogen'},
-  {id: 2, name: 'Helium'},
-  {id: 3, name: 'Lithium'},
-  {id: 4, name: 'Beryllium'},
-  {id: 5, name: 'Boron'},
-  {id: 6, name: 'Carbon'},
-  {id: 7, name: 'Nitrogen'},
-  {id: 8, name: 'Oxygen'},
-  {id: 9, name: 'Fluorine'},
-  {id: 10, name: 'Neon'},
-  {id: 11, name: 'Sodium'},
-  {id: 12, name: 'Magnesium'},
-  {id: 13, name: 'Aluminum'},
-  {id: 14, name: 'Silicon'},
-  {id: 15, name: 'Phosphorus'},
-  {id: 16, name: 'Sulfur'},
-  {id: 17, name: 'Chlorine'},
-  {id: 18, name: 'Argon'},
-  {id: 19, name: 'Potassium'},
-  {id: 20, name: 'Calcium'},
-];
+export interface InventoryTableItem {
+  stockNumber: string;
+  year: number;
+  make: string;
+  model: string;
+  trim: string;
+  status: Status.inStock | Status.sold | Status.dealPending | Status.inTrade;
+  vin: string;
+  inStockDate: Date;
+}
 
 /**
  * Data source for the InventoryTable view. This class should
@@ -40,11 +29,12 @@ const EXAMPLE_DATA: InventoryTableItem[] = [
  * (including sorting, pagination, and filtering).
  */
 export class InventoryTableDataSource extends DataSource<InventoryTableItem> {
-  data: InventoryTableItem[] = EXAMPLE_DATA;
+
+  data: InventoryTableItem[] = this.vehicleService.getVehicles();
   paginator: MatPaginator;
   sort: MatSort;
 
-  constructor() {
+  constructor(private vehicleService: VehicleService) {
     super();
   }
 
@@ -94,8 +84,14 @@ export class InventoryTableDataSource extends DataSource<InventoryTableItem> {
     return data.sort((a, b) => {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
-        case 'name': return compare(a.name, b.name, isAsc);
-        case 'id': return compare(+a.id, +b.id, isAsc);
+        case 'stockNumber': return compare(a.stockNumber, b.stockNumber, isAsc);
+        case 'year': return compare(+a.year, +b.year, isAsc);
+        case 'make': return compare(+a.make, +b.make, isAsc);
+        case 'model': return compare(+a.model, +b.model, isAsc);
+        case 'trim': return compare(+a.trim, +b.trim, isAsc);
+        case 'status': return compare(+a.status, +b.status, isAsc);
+        case 'vin': return compare(+a.vin, +b.vin, isAsc);
+        case 'inStockDate': return compare(+a.inStockDate, +b.inStockDate, isAsc);
         default: return 0;
       }
     });

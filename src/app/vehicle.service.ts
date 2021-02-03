@@ -18,7 +18,7 @@ export class VehicleService {
       trim: "LE",
       status: Status.inStock,
       vin: "4Y1SL65848Z411439",
-      inStockDate: new Date()},
+      inStockDate: new Date(new Date().toISOString())},
       {stockNumber: "B6300",
       year: 2020,
       make: "Chevrolet",
@@ -26,7 +26,7 @@ export class VehicleService {
       trim: "XSE",
       status: Status.inTrade,
       vin: "7E5SL65848Z467439",
-      inStockDate: new Date()},
+      inStockDate: new Date(new Date().toISOString())},
       {stockNumber: "A3400",
       year: 2004,
       make: "Ford",
@@ -34,7 +34,7 @@ export class VehicleService {
       trim: "LE",
       status: Status.sold,
       vin: "GJ3I45O748Z414I23",
-      inStockDate: new Date()}
+      inStockDate: new Date(new Date().toISOString())}
 
     ];
   }

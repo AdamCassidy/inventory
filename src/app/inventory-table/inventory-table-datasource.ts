@@ -29,12 +29,11 @@ export interface InventoryTableItem {
  * (including sorting, pagination, and filtering).
  */
 export class InventoryTableDataSource extends DataSource<InventoryTableItem> {
-
-  data: InventoryTableItem[] = this.vehicleService.getVehicles();
+  data: InventoryTableItem[] = this.vehicles;
   paginator: MatPaginator;
   sort: MatSort;
 
-  constructor(private vehicleService: VehicleService) {
+  constructor(private vehicleService: VehicleService, private vehicles: InventoryTableItem[]) {
     super();
   }
 
@@ -55,6 +54,7 @@ export class InventoryTableDataSource extends DataSource<InventoryTableItem> {
     return merge(...dataMutations).pipe(map(() => {
       return this.getPagedData(this.getSortedData([...this.data]));
     }));
+    // return this.vehicleService.getVehicles();
   }
 
   /**

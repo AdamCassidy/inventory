@@ -5,12 +5,6 @@ import { MatTable } from '@angular/material/table';
 import { VehicleService } from '../vehicle.service';
 import { InventoryTableDataSource, InventoryTableItem } from './inventory-table-datasource';
 
-export enum Status {
-  inStock = "In Stock",
-  sold = "Sold",
-  dealPending = "Deal Pending",
-  inTrade = "In Trade"
-}
 @Component({
   selector: 'app-inventory-table',
   templateUrl: './inventory-table.component.html',
@@ -28,8 +22,13 @@ export class InventoryTableComponent implements AfterViewInit, OnInit {
 
   constructor(private vehicleService: VehicleService) {}
 
+  getVehicles(): void {
+    this.vehicleService.getVehicles().subscribe(vehicles => this.vehicles = vehicles);
+  }
+
   ngOnInit() {
-    this.dataSource = new InventoryTableDataSource(this.vehicleService);
+    this.getVehicles();
+    this.dataSource = new InventoryTableDataSource(this.vehicleService, this.vehicles);
   }
 
   ngAfterViewInit() {

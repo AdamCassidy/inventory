@@ -5,12 +5,11 @@ import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 import { VehicleService } from '../vehicle.service';
 
-
 export enum Status {
-  inStock = "In Stock",
-  sold = "Sold",
-  dealPending = "Deal Pending",
-  inTrade = "In Trade"
+  inStock = 'In Stock',
+  sold = 'Sold',
+  dealPending = 'Deal Pending',
+  inTrade = 'In Trade',
 }
 export interface InventoryTableItem {
   stockNumber: string;
@@ -29,11 +28,11 @@ export interface InventoryTableItem {
  * (including sorting, pagination, and filtering).
  */
 export class InventoryTableDataSource extends DataSource<InventoryTableItem> {
-  data: InventoryTableItem[] = this.vehicles;
+  data: InventoryTableItem[];
   paginator: MatPaginator;
   sort: MatSort;
 
-  constructor(private vehicleService: VehicleService, private vehicles: InventoryTableItem[]) {
+  constructor(private vehicleService: VehicleService) {
     super();
   }
 
@@ -46,14 +45,16 @@ export class InventoryTableDataSource extends DataSource<InventoryTableItem> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
-      observableOf(this.data),
+      this.vehicleService.getVehicles(),
       this.paginator.page,
-      this.sort.sortChange
+      this.sort.sortChange,
     ];
 
-    return merge(...dataMutations).pipe(map(() => {
-      return this.getPagedData(this.getSortedData([...this.data]));
-    }));
+    return merge(...dataMutations).pipe(
+      map(() => {
+        return this.getPagedData(this.getSortedData([...this.data]));
+      })
+    );
     // return this.vehicleService.getVehicles();
   }
 
@@ -84,15 +85,24 @@ export class InventoryTableDataSource extends DataSource<InventoryTableItem> {
     return data.sort((a, b) => {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
-        case 'stockNumber': return compare(a.stockNumber, b.stockNumber, isAsc);
-        case 'year': return compare(+a.year, +b.year, isAsc);
-        case 'make': return compare(+a.make, +b.make, isAsc);
-        case 'model': return compare(+a.model, +b.model, isAsc);
-        case 'trim': return compare(+a.trim, +b.trim, isAsc);
-        case 'status': return compare(+a.status, +b.status, isAsc);
-        case 'vin': return compare(+a.vin, +b.vin, isAsc);
-        case 'inStockDate': return compare(+a.inStockDate, +b.inStockDate, isAsc);
-        default: return 0;
+        case 'stockNumber':
+          return compare(a.stockNumber, b.stockNumber, isAsc);
+        case 'year':
+          return compare(+a.year, +b.year, isAsc);
+        case 'make':
+          return compare(+a.make, +b.make, isAsc);
+        case 'model':
+          return compare(+a.model, +b.model, isAsc);
+        case 'trim':
+          return compare(+a.trim, +b.trim, isAsc);
+        case 'status':
+          return compare(+a.status, +b.status, isAsc);
+        case 'vin':
+          return compare(+a.vin, +b.vin, isAsc);
+        case 'inStockDate':
+          return compare(+a.inStockDate, +b.inStockDate, isAsc);
+        default:
+          return 0;
       }
     });
   }

@@ -22,14 +22,20 @@
         </div>
         <div *ngIf="row.isEdit">
           <div *ngIf="col === 'edit'; else editField">
-            <button (click)="row.isEdit = !row.isEdit">Done</button>
+            <button
+              (click)="
+                row.isEdit = !row.isEdit; this.dataSource.data[row] = row
+              "
+            >
+              Done
+            </button>
           </div>
           <ng-template #editField>
             <mat-form-field>
-              <mat-label>{{ col }}</mat-label>
               <input
-                type="{{ dataSchema[col] }}"
+                [(ngModel)]="row[col]"
                 matInput
+                type="{{ dataSchema[col] }}"
                 value="{{ row[col] }}"
               />
             </mat-form-field>

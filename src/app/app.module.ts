@@ -18,6 +18,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { HttpClientModule } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { VehicleService } from './vehicle.service';
 
 @NgModule({
   declarations: [AppComponent, NavigationComponent, InventoryTableComponent],
@@ -37,8 +39,9 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatInputModule,
     HttpClientModule,
+    FormsModule,
   ],
-  providers: [],
+  providers: [VehicleService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -8,6 +8,17 @@ import {
   InventoryTableItem,
 } from './inventory-table-datasource';
 
+const VEHICLE_SCHEMA = {
+  stockNumber: 'text',
+  year: 'number',
+  make: 'text',
+  model: 'text',
+  trim: 'text',
+  status: 'text',
+  vin: 'text',
+  inStockDate: 'date',
+};
+
 @Component({
   selector: 'app-inventory-table',
   templateUrl: './inventory-table.component.html',
@@ -18,6 +29,7 @@ export class InventoryTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) table: MatTable<InventoryTableItem>;
   dataSource: InventoryTableDataSource;
+  dataSchema = VEHICLE_SCHEMA;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = [
@@ -29,6 +41,7 @@ export class InventoryTableComponent implements AfterViewInit, OnInit {
     'status',
     'vin',
     'inStockDate',
+    'edit',
   ];
 
   constructor(private vehicleService: VehicleService) {

@@ -1,57 +1,53 @@
 <div class="mat-elevation-z8">
-  <table mat-table class="full-width-table" matSort aria-label="Elements">
-
-    <ng-container matColumnDef="stockNumber">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="column">Stock#</th>
-      <td mat-cell *matCellDef="let row" class="column">{{row.stockNumber}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="year">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="column">Year</th>
-      <td mat-cell *matCellDef="let row"  class="column">{{row.year}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="make">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="column">Make</th>
-      <td mat-cell *matCellDef="let row"  class="column">{{row.make}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="model">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="column">Model</th>
-      <td mat-cell *matCellDef="let row"  class="column">{{row.model}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="trim">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="column">Trim</th>
-      <td mat-cell *matCellDef="let row"  class="column">{{row.trim}}</td>
-    </ng-container>
-
-
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="column">Status</th>
-      <td mat-cell *matCellDef="let row"  class="column">{{row.status}}</td>
-    </ng-container>
-
-
-    <ng-container matColumnDef="vin">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="column">VIN</th>
-      <td mat-cell *matCellDef="let row"  class="column">{{row.vin}}</td>
-    </ng-container>
-
-
-    <ng-container matColumnDef="inStockDate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header  class="column">In Stock Date</th>
-      <td mat-cell *matCellDef="let row"  class="column">{{row.inStockDate}}</td>
+  <table mat-table class="full-width-table" matSort>
+    <ng-container matColumnDef="{{ col }}" *ngFor="let col of displayedColumns">
+      <th mat-header-cell *matHeaderCellDef class="cell">
+        <span *ngIf="col === 'stockNumber'">Stock#</span>
+        <span *ngIf="col === 'year'">Year</span>
+        <span *ngIf="col === 'make'">Make</span>
+        <span *ngIf="col === 'model'">Model</span>
+        <span *ngIf="col === 'trim'">Trim</span>
+        <span *ngIf="col === 'status'">Status</span>
+        <span *ngIf="col === 'vin'">VIN</span>
+        <span *ngIf="col === 'inStockDate'">In Stock Date</span>
+      </th>
+      <td mat-cell *matCellDef="let row" class="cell">
+        <div *ngIf="!row.isEdit">
+          <div *ngIf="col === 'edit'; value">
+            <button (click)="row.isEdit = !row.isEdit">Edit</button>
+          </div>
+          <span #value>
+            {{ row[col] }}
+          </span>
+        </div>
+        <div *ngIf="row.isEdit">
+          <div *ngIf="col === 'edit'; else editField">
+            <button (click)="row.isEdit = !row.isEdit">Done</button>
+          </div>
+          <ng-template #editField>
+            <mat-form-field>
+              <mat-label>{{ col }}</mat-label>
+              <input
+                type="{{ dataSchema[col] }}"
+                matInput
+                value="{{ row[col] }}"
+              />
+            </mat-form-field>
+          </ng-template>
+        </div>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
-  <mat-paginator #paginator
-      [length]="dataSource.data.length"
-      [pageIndex]="0"
-      [pageSize]="50"
-      [pageSizeOptions]="[25, 50, 100, 250]">
+  <mat-paginator
+    #paginator
+    [length]="dataSource?.data.length"
+    [pageIndex]="0"
+    [pageSize]="50"
+    [pageSizeOptions]="[25, 50, 100, 250]"
+  >
   </mat-paginator>
 </div>

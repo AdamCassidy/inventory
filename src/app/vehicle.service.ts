@@ -23,7 +23,7 @@ export class VehicleService {
         trim: 'LE',
         status: Status.inStock,
         vin: '4Y1SL65848Z411439',
-        inStockDate: new Date().toISOString(),
+        inStockDate: new Date().toISOString().slice(0, 16),
       },
       {
         stockNumber: 'B6300',
@@ -33,7 +33,7 @@ export class VehicleService {
         trim: 'XSE',
         status: Status.inTrade,
         vin: '7E5SL65848Z467439',
-        inStockDate: new Date().toISOString(),
+        inStockDate: new Date().toISOString().slice(0, 16),
       },
       {
         stockNumber: 'A3400',
@@ -43,7 +43,7 @@ export class VehicleService {
         trim: 'LE',
         status: Status.sold,
         vin: 'GJ3I45O748Z414I23',
-        inStockDate: new Date().toISOString(),
+        inStockDate: new Date().toISOString().slice(0, 16),
       },
     ]);
   }

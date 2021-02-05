@@ -68,7 +68,7 @@ export class InventoryTableComponent implements AfterViewInit, OnInit {
       }
 
       this.dataSource.data = tempVehicles.map((vehicle) => {
-        vehicle.inStockDate = new Date(vehicle.inStockDate);
+        vehicle.inStockDate = vehicle.inStockDate;
         return vehicle;
       });
     });

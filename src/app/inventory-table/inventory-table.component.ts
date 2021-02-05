@@ -16,7 +16,7 @@ const VEHICLE_SCHEMA = {
   trim: 'text',
   status: 'text',
   vin: 'text',
-  inStockDate: 'date',
+  inStockDate: 'datetime-local',
 };
 
 @Component({

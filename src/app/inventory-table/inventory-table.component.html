@@ -35,7 +35,7 @@
             </button>
           </div>
           <ng-template #editField>
-            <mat-form-field>
+            <mat-form-field [style.width.px]="100">
               <input
                 [(ngModel)]="row[col]"
                 matInput

@@ -24,6 +24,7 @@ import { VehicleService } from './vehicle.service';
 @NgModule({
   declarations: [AppComponent, NavigationComponent, InventoryTableComponent],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -38,10 +39,9 @@ import { VehicleService } from './vehicle.service';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    HttpClientModule,
     FormsModule,
   ],
-  providers: [VehicleService],
+  providers: [VehicleService, HttpClientModule],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
